@@ -3,9 +3,8 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-
+import '/tflite_flutter.dart';
 import 'package:cli/rootBundle.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as DartImage;
 
 class TfLiteFaceRecognition {
@@ -13,7 +12,7 @@ class TfLiteFaceRecognition {
     // Convert the image to a float32 list and normalize the pixel values
     var input = List.generate(
         1,
-            (_) => List.generate(
+        (_) => List.generate(
             3, (_) => List.generate(112, (_) => List.filled(112, 0.0))));
 
     for (int y = 0; y < 112; y++) {
@@ -33,11 +32,11 @@ class TfLiteFaceRecognition {
     // Convert the image to a float32 list and normalize the pixel values
     List<List<List<List<double>>>> input = List.generate(
       1,
-          (_) => List.generate(
+      (_) => List.generate(
         256,
-            (_) => List.generate(
+        (_) => List.generate(
           256,
-              (_) => List.filled(3, 0.0),
+          (_) => List.filled(3, 0.0),
         ),
       ),
     );
@@ -59,7 +58,7 @@ class TfLiteFaceRecognition {
     var bytes2 = (await rootBundle.load(imgFileInAsset)).buffer.asUint8List();
     var imageInput2 = DartImage.decodeImage(bytes2)!;
     var resizedImage2 =
-    DartImage.copyResize(imageInput2, width: 112, height: 112);
+        DartImage.copyResize(imageInput2, width: 112, height: 112);
     return _preprocessImage_1_3_112_112(resizedImage2);
   }
 
@@ -67,7 +66,7 @@ class TfLiteFaceRecognition {
     // var bytes2 = (await rootBundle.load(imgFileInAsset)).buffer.asUint8List();
     var imageInput2 = DartImage.decodeImage(img)!;
     var resizedImage2 =
-    DartImage.copyResize(imageInput2, width: 112, height: 112);
+        DartImage.copyResize(imageInput2, width: 112, height: 112);
     return _preprocessImage_1_3_112_112(resizedImage2);
   }
 
@@ -76,14 +75,14 @@ class TfLiteFaceRecognition {
     var bytes2 = (await rootBundle.load(imgFileInAsset)).buffer.asUint8List();
     var imageInput2 = DartImage.decodeImage(bytes2)!;
     var resizedImage2 =
-    DartImage.copyResize(imageInput2, width: 256, height: 256);
+        DartImage.copyResize(imageInput2, width: 256, height: 256);
     return _preprocessImage_1_256_256_3(resizedImage2);
   }
 
   Future<List> getInput_1_256_256_3_FromImage(Uint8List img) async {
     var imageInput2 = DartImage.decodeImage(img)!;
     var resizedImage2 =
-    DartImage.copyResize(imageInput2, width: 256, height: 256);
+        DartImage.copyResize(imageInput2, width: 256, height: 256);
     return _preprocessImage_1_256_256_3(resizedImage2);
   }
 
@@ -95,20 +94,20 @@ class TfLiteFaceRecognition {
   Future<dynamic> MediapipeObjectDetect(Uint8List img) async {
     if (_mediaposeDetect == null) {
       var modelfileasset = "assets/chunom_detect/model.tflite";
-      _mediaposeDetect = await Interpreter.fromAsset(modelfileasset);
+      _mediaposeDetect =  await Interpreter.fromBuffer((await rootBundle.loadFile(modelfileasset)).readAsBytesSync());
     }
     var output0 = List.generate(
       1,
-          (_) => List.generate(
+      (_) => List.generate(
         12276,
-            (_) => List.filled(4, 0.0),
+        (_) => List.filled(4, 0.0),
       ),
     );
     var output1 = List.generate(
       1,
-          (_) => List.generate(
+      (_) => List.generate(
         12276,
-            (_) => List.filled(2, 0.0),
+        (_) => List.filled(2, 0.0),
       ),
     );
     var input = getInput_1_256_256_3_FromImage(img);
@@ -122,7 +121,7 @@ class TfLiteFaceRecognition {
   Future<List<double>> InsightFaceVector(Uint8List img) async {
     if (_insightFace == null) {
       var modelfileasset = "assets/updated_resnet100.tflite";
-      _insightFace = await Interpreter.fromAsset(modelfileasset);
+      _insightFace =  await Interpreter.fromBuffer((await rootBundle.loadFile(modelfileasset)).readAsBytesSync());
     }
 
     var output = List<double>.filled(512, 0).reshape([1, 512]);
@@ -138,11 +137,11 @@ class TfLiteFaceRecognition {
   Future<List<double>> EyeFaceVector(Uint8List img) async {
     if (_eyeFace == null) {
       var modelfileasset = "assets/face_extract_feature/model.tflite";
-      _eyeFace = await Interpreter.fromAsset(modelfileasset);
+      _eyeFace = await Interpreter.fromBuffer((await rootBundle.loadFile(modelfileasset)).readAsBytesSync());
     }
     var output0 = List<double>.filled(512, 0).reshape([1, 512]);
     var output1 =
-    List<double>.filled(1 * 512 * 7 * 7, 0).reshape([1, 512, 7, 7]);
+        List<double>.filled(1 * 512 * 7 * 7, 0).reshape([1, 512, 7, 7]);
     var input = await getInput_1_3_112_112_FromImage(img);
 
     _eyeFace!.runForMultipleInputs([input], {0: output0, 1: output1});
@@ -180,7 +179,19 @@ class TfLiteFaceRecognition {
     }
   }
 
-  Future<dynamic> Test() async {
+  Future<dynamic> TestChuNomDetect() async {
+    var img =
+        (await rootBundle.load("assets/chunom_detect/nlvnpf-0137-01-045.jpg"))
+            .buffer
+            .asUint8List();
+
+    print("Test -----------1");
+    var x = await MediapipeObjectDetect(img);
+
+    return x;
+  }
+
+  Future<dynamic> TestFace() async {
     var img = (await rootBundle.load("assets/dunp1.png")).buffer.asUint8List();
 
     print("Test -----------1");

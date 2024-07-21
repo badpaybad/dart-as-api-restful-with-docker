@@ -12,8 +12,20 @@ dependencies:
   shelf: ^1.4.0
   shelf_router: ^1.1.2
   shelf_static: ^1.1.0
-  tflite_flutter: ^0.10.4
+#  tflite_flutter: ^0.10.4
   image: ^3.3.0
+  path: ^1.6.2
+  quiver: ^3.0.0
+  ffi: ^2.0.1
+
+#
+#  tflite_flutter_plugin:
+#    git:
+#      url: https://github.com/badpaybad/tflite_flutter_plugin
+#      ref: master
+
+#  tflite_flutter:
+#    path: /work/tflite_flutter_plugin
 
 
 dev_dependencies:

@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as DartImage;
-// import 'package:cli/TfLiteFaceRecognition.dart';
+import 'package:cli/TfLiteFaceRecognition.dart';
 import 'package:cli/rootBundle.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -67,14 +67,14 @@ final _router = shelf_router.Router()
   ..get('/info.json', _infoHandler)
   ..get('/sum/<a|[0-9]+>/<b|[0-9]+>', _sumHandler)
   ..get('/tflite/test', (Request request) async {
-    // var xxx = await TfLiteFaceRecognition().Test();
-    // return Response.ok(
-    //   _jsonEncode({'data': xxx}),
-    //   headers: {
-    //     'content-type': 'application/json',
-    //     'Cache-Control': 'public, max-age=604800, immutable',
-    //   },
-    // );
+    var xxx = await TfLiteFaceRecognition().TestChuNomDetect();
+    return Response.ok(
+      _jsonEncode({'data': xxx}),
+      headers: {
+        'content-type': 'application/json',
+        'Cache-Control': 'public, max-age=604800, immutable',
+      },
+    );
   })
 ;
 
