@@ -1,0 +1,1 @@
+dart create -t console cli
