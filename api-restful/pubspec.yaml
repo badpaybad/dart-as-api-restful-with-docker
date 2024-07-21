@@ -2,13 +2,17 @@ name: cli
 description: A sample command-line application.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
-
+publish_to: none
 environment:
   sdk: ^3.3.1
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+#  path: ^1.8.0
+  shelf: ^1.4.0
+  shelf_router: ^1.1.2
+  shelf_static: ^1.1.0
+
 
 dev_dependencies:
   lints: ^3.0.0
