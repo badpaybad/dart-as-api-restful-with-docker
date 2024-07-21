@@ -16,7 +16,7 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:shelf_static/shelf_static.dart' as shelf_static;
 
 Future<void> main() async {
-  print("Server root dir: ${await rootBundle.rootDir()}");
+  print("Server root dir: ${rootBundle.rootDir()}");
   // If the "PORT" environment variable is set, listen to it. Otherwise, 8080.
   // https://cloud.google.com/run/docs/reference/container-contract#port
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
@@ -39,7 +39,7 @@ Future<void> main() async {
   );
 
   print('Serving at http://${server.address.host}:${server.port}');
-
+  await TfLiteFaceRecognition().TestChuNomDetect();
   // Used for tracking uptime of the demo server.
   _watch.start();
 }

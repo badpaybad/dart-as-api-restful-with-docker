@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:cli/rootBundle.dart';
 import 'package:path/path.dart' as Path;
 
 const Set<String> _supported = {'linux', 'mac', 'win'};
@@ -36,8 +37,15 @@ DynamicLibrary tflitelib = () {
     return DynamicLibrary.process();
   } else {
     print("build tflite: https://github.com/am15h/tflite_flutter_plugin/wiki/Building-Desktop-binaries-with-XNNPack-Delegate");
-    return DynamicLibrary.open(
-      Directory(Platform.resolvedExecutable).parent.path + '/blobs/${binaryName}'
-    );
+   try {
+     return DynamicLibrary.open(
+         Directory(Platform.resolvedExecutable).parent.path +
+             '/blobs/${binaryName}'
+     );
+   }catch(ex){
+     return DynamicLibrary.open(
+         '${rootBundle.rootDir()}/linuxx64/libtensorflowlite_c.so'
+     );
+   }
   }
 }();

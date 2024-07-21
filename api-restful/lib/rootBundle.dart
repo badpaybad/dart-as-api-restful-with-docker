@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class rootBundle {
-  static Future<String> rootDir() async {
+  static String rootDir()  {
     var file = Platform.script.toFilePath();
     file = file.replaceAll("\\", "/");
     var idx = file.lastIndexOf("/");
