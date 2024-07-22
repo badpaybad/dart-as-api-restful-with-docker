@@ -39,7 +39,12 @@ Future<void> main() async {
   );
 
   print('Serving at http://${server.address.host}:${server.port}');
-  await TfLiteFaceRecognition().TestChuNomDetect();
+  try {
+    await TfLiteFaceRecognition().TestChuNomDetect();
+  } catch (eee) {
+    print("ERROR: ");
+    print(eee);
+  }
   // Used for tracking uptime of the demo server.
   _watch.start();
 }
@@ -75,8 +80,7 @@ final _router = shelf_router.Router()
         'Cache-Control': 'public, max-age=604800, immutable',
       },
     );
-  })
-;
+  });
 
 Response _helloWorldHandler(Request request) => Response.ok('Hello, World!');
 

@@ -6,6 +6,9 @@ dart create -t console cli
 
 # desktop linuxx64
 
+https://github.com/am15h/tflite_flutter_plugin/wiki/Building-Desktop-binaries-with-XNNPack-Delegate
+https://www.tensorflow.org/install/source
+
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get install gcc-7 g++-7

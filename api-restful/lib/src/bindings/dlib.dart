@@ -36,7 +36,7 @@ DynamicLibrary tflitelib = () {
   } else if (Platform.isIOS) {
     return DynamicLibrary.process();
   } else {
-    print("build tflite: https://github.com/am15h/tflite_flutter_plugin/wiki/Building-Desktop-binaries-with-XNNPack-Delegate");
+    print("build tflite: /work/dart-as-api-restful-with-docker/api-restful/bin/tflite/tflite.build.md");
    try {
      return DynamicLibrary.open(
          Directory(Platform.resolvedExecutable).parent.path +
@@ -44,7 +44,7 @@ DynamicLibrary tflitelib = () {
      );
    }catch(ex){
      return DynamicLibrary.open(
-         '${rootBundle.rootDir()}/linuxx64/libtensorflowlite_c.so'
+         '${rootBundle.rootDir()}/tflite/linuxx64/libtensorflowlite.so'
      );
    }
   }
