@@ -34,3 +34,6 @@ git checkout v2.8.0
 bazel build //tensorflow:libtensorflow.so
  to: bazel-bin/tensorflow/libtensorflow.so
 
+bazel build //tensorflow/lite:libtensorflowlite.so
+
+
